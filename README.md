@@ -1,1 +1,3 @@
 # SSRTrade
+
+Algorithmic Trading Bot
