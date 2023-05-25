@@ -1,14 +1,37 @@
-print("hello world")
-
 import yfinance as yahooFinance
 
 import os
-from dotenv import load_dotenv
+from dotenv.main import load_dotenv
 load_dotenv()
+
+from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import MarketOrderRequest
+from alpaca.trading.enums import OrderSide, TimeInForce
 
 endpoint = os.getenv("ENDPOINT")
 apiKey = os.getenv("APIKEY")
 secretKey = os.getenv("SECRETKEY")
+
+trading_client = TradingClient(apiKey, secretKey, paper=True)
+
+# Setting parameters for our buy order
+market_order_data = MarketOrderRequest(
+                      symbol="AMZN",
+                      qty=1,
+                      side=OrderSide.SELL,
+                      time_in_force=TimeInForce.GTC
+                  )
+
+market_order = trading_client.submit_order(market_order_data)
+for property_name, value in market_order:
+  print(f"\"{property_name}\": {value}")
+
+
+
+account = trading_client.get_account()
+for property_name, value in account:
+  print(f"\"{property_name}\": {value}")
+
 
 print(f"The endpoint is {endpoint}, the api key is {apiKey}, the secret key is {secretKey}")
 
