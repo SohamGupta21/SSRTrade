@@ -40,11 +40,3 @@ if __name__ == '__main__':
     alpacaTrader = AlpacaTrader(os.getenv("ENDPOINT"), os.getenv("APIKEY"), os.getenv("SECRETKEY"))
 
     alpacaTrader.sellStock("AMZN", 4)
-    
-
-
-
-
-
-
-
