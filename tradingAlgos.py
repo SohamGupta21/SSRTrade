@@ -10,6 +10,8 @@ class TradingAlgos():
         self.indicators = indicators()
         self.shares = 0
 
+        self.rsiData = []
+
 
 
 
@@ -46,8 +48,45 @@ class TradingAlgos():
                 self.shares = 0
 
     def rsiTrader(self):
-        gains = []
-        losses = []
+        self.current_price = indicators.get_current_price(indicators, "AMZN")
+        self.rsiData.append(self.current_price)
+        
+        if(len(self.rsiData) == 15):
+            gains = []
+            losses = []
+            # calculate the differences
+            for i in range(0, len(self.rsiData) - 1):
+                diff = self.rsiData[i + 1] - self.rsiData[i]
+                # add these differences to the gains and losses array  
+                if diff > 0:
+                    gains.append(diff)
+                elif diff < 0:
+                    losses.append(-(diff)) 
+            # calculate the RSI
+
+            if len(gains) == 0:
+                RSI = 0
+            elif len(losses) == 0:
+                RSI = 100
+            else:
+                RS = (sum(gains) / len(gains)) / (sum(losses) / len(losses))
+                RSI = 100 - (100 / (1 + RS))
+            print(RSI)
+            # remove the first element from data
+            self.rsiData.pop(0)
+        else:
+            pass
+
+        print(len(self.rsiData))
+
+
+            
+            
+            
+
+        
+
+
 
 
 
