@@ -113,22 +113,21 @@ class TradingAlgos():
     def stochastic(self):
 
 
-       self.current_price = indicators.get_current_price(indicators, "AMZN")
-       self.stochasticData.append(self.current_price)
-      
-       if(len(self.stochasticData) == 14):
-           L14 = min(self.stochasticData)
-           H14 = max(self.stochasticData)
-           if H14 > L14 and self.current_price > L14:
-               K = 100 * ((self.current_price - L14)/(H14 - L14))
-               print(K)
-           # remove the first element from data
-           self.stochasticData.pop(0)
-       else:
-           pass   
-       print(len(self.stochasticData))
+        self.current_price = indicators.get_current_price(indicators, "AMZN")
+        self.stochasticData.append(self.current_price)
+            
+        if(len(self.stochasticData) == 14):
+            L14 = min(self.stochasticData)
+            H14 = max(self.stochasticData)
+            K = 100 * ((self.current_price - L14)/(H14 - L14))
+            print(K)
+            # remove the first element from data
+            self.stochasticData.pop(0)
+        else:
+            pass   
+        print(len(self.stochasticData))
 
-
+ 
 
 
 
