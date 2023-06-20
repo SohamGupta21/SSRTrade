@@ -1,6 +1,7 @@
 from alpacaTrader import AlpacaTrader
 from indicators import indicators
 import os
+import numpy as np
 
 class TradingAlgos():
     def __init__(self):
@@ -11,6 +12,8 @@ class TradingAlgos():
         self.shares = 0
 
         self.rsiData = []
+        self.macdData = []
+        self.stochasticData = []
 
 
 
@@ -78,6 +81,55 @@ class TradingAlgos():
             pass
 
         print(len(self.rsiData))
+
+
+    def macdTrader(self):
+        self.current_price = indicators.get_current_price(indicators, "AMZN")
+        self.macdData.append(self.current_price)
+
+        if len(self.macdData) == 26:
+            twenty_six_ema = self.calculateEMA(self.macdData, 26, 25)
+            twelve_ema = self.calculateEMA(self.macdData, 12, 11)
+
+            MACD = twelve_ema - twenty_six_ema
+
+            print(MACD)
+
+        
+            self.macdData.pop(0)
+        else:
+            pass
+        print(len(self.macdData))
+
+    def calculateEMA(self, data, period, index):
+
+        smoothing = float(2 / (period + 1))
+
+        if index == 0:
+            return float(data[0])
+        else:
+            return (float(data[index]) * smoothing)+ (self.calculateEMA(data, period, index - 1) * (1-smoothing))
+        
+    def stochastic(self):
+
+
+       self.current_price = indicators.get_current_price(indicators, "AMZN")
+       self.stochasticData.append(self.current_price)
+      
+       if(len(self.stochasticData) == 14):
+           L14 = min(self.stochasticData)
+           H14 = max(self.stochasticData)
+           if H14 > L14 and self.current_price > L14:
+               K = 100 * ((self.current_price - L14)/(H14 - L14))
+               print(K)
+           # remove the first element from data
+           self.stochasticData.pop(0)
+       else:
+           pass   
+       print(len(self.stochasticData))
+
+
+
 
 
             
